@@ -4,6 +4,7 @@ const applyMiddlewares = require("./middlewares");
 
 const createExpressServer = async (app) => {
   const server = express();
+  server;
   applyMiddlewares(server, app);
   applyEndpoints(server, app);
 
