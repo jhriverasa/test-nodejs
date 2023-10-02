@@ -157,6 +157,59 @@ const isValidPeopleId = (peopleId) => {
   );
 };
 
+// This is actually the same method for wookiee translation in SWAPI
+// you can check it -> "https://github.com/Juriy/swapi/blob/master/resources/renderers.py"
+
+const valueToWookie = (value) => {
+  const lookup = {
+    a: "ra",
+    b: "rh",
+    c: "oa",
+    d: "wa",
+    e: "wo",
+    f: "ww",
+    g: "rr",
+    h: "ac",
+    i: "ah",
+    j: "sh",
+    k: "or",
+    l: "an",
+    m: "sc",
+    n: "wh",
+    o: "oo",
+    p: "ak",
+    q: "rq",
+    r: "rc",
+    s: "c",
+    t: "ao",
+    u: "hu",
+    v: "ho",
+    w: "oh",
+    x: "k",
+    y: "ro",
+    z: "uf",
+  };
+
+  // only translates string values like in SWAPI
+  if (typeof value === "string") {
+    const translatedValue = [];
+    for (const char of value) {
+      // if char is in lookup (has translation) add the value to translated array
+      if (char.toLowerCase() in lookup) {
+        translatedValue.push(lookup[char.toLowerCase()]);
+      } else {
+        // if not the case, just push it
+        translatedValue.push(char);
+      }
+    }
+    // get translated string from array of chars.
+    return translatedValue.join("");
+  } else {
+    //preserve the value if its type is not string
+    return value;
+  }
+};
+
 module.exports = {
   getWeightOnPlanet,
   genericRequest,
@@ -168,4 +221,5 @@ module.exports = {
   getPeopleDataFromSWAPI,
   isValidPlanetId,
   isValidPeopleId,
+  valueToWookie,
 };
