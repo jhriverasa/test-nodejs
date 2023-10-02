@@ -14,7 +14,7 @@ const loggingMiddleware = (db) => (req, res, next) => {
     header: headers,
     ip,
   });
-  
+
   next();
 };
 

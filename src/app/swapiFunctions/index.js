@@ -36,13 +36,13 @@ const genericRequest = async (url, method, body, logging = false) => {
 //-1.0 if gravity is unknown
 const getFloatGravity = (gravityFromSWAPI) => {
   /* According to SWAPI there are a total of 60 planets,
-       their gravity follow different formats:
-      - "unknown"
-      - "N/A"
-      - "1 standard"
-      - "1.1"
-      - "1.5 (surface), 1 standard (Cloud City)"
-    */
+     their gravity follow different formats:
+    - "unknown"
+    - "N/A"
+    - "1 standard"
+    - "1.1"
+    - "1.5 (surface), 1 standard (Cloud City)"
+  */
   let standardizedGravity;
   switch (gravityFromSWAPI) {
     case "unknown":
@@ -70,12 +70,12 @@ const getFloatGravity = (gravityFromSWAPI) => {
 //-1 if mass is unknown
 const getIntMass = (massFromSWAPI) => {
   /* According to SWAPI there are a total of 82 people,
-       their mass follow different formats:
-      - "77" -> 77kg
-      - "unknown"
-      - "1,358" -> 1358kg
-      - "78.2" -> 78.2kg
-    */
+     their mass follow different formats:
+    - "77" -> 77kg
+    - "unknown"
+    - "1,358" -> 1358kg
+    - "78.2" -> 78.2kg
+  */
   let standardizedMass;
   if (massFromSWAPI === "unknown") {
     standardizedMass = -1;
