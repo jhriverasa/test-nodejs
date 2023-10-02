@@ -1,6 +1,10 @@
 const { Planet } = require("../../app/Planet");
 const { peopleFactory } = require("../../app/People");
-const { SWAPI_BASE_URL } = require("../constants");
+const {
+  SWAPI_BASE_URL,
+  SWAPI_PLANETS_COUNT,
+  SWAPI_PEOPLE_COUNT,
+} = require("../constants");
 const {
   isValidPlanetId,
   isValidPeopleId,
@@ -78,7 +82,23 @@ const applySwapiEndpoints = (server, app) => {
   });
 
   server.get("/hfswapi/getWeightOnPlanetRandom", async (req, res) => {
-    res.sendStatus(501);
+    // Generate Random valid Ids ( int to string)
+    const randomPlanetId = (
+      Math.floor(Math.random() * SWAPI_PLANETS_COUNT) + 1
+    ).toString();
+    const randomPeopleId = (
+      Math.floor(Math.random() * SWAPI_PEOPLE_COUNT) + 1
+    ).toString();
+
+    const people = await peopleFactory(randomPeopleId, "default");
+    const weight = await people.getWeightOnPlanet(randomPlanetId);
+
+    const response = {
+      planetId: randomPlanetId,
+      peopleId: randomPeopleId,
+      weightOnPlanet: weight,
+    };
+    res.json(response);
   });
 
   server.get("/hfswapi/getLogs", async (req, res) => {
