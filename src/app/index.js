@@ -1,7 +1,7 @@
-const db = require('./db');
-const swapiFunctions = require('./swapiFunctions')
+const db = require("./db");
+const swapiFunctions = require("./swapiFunctions");
 
 module.exports = {
-    db,
-    swapiFunctions
-}
+  db,
+  swapiFunctions,
+};
