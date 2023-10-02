@@ -70,13 +70,25 @@ const applySwapiEndpoints = (server, app) => {
       return res.status(400).json({ error: "Invalid Planet Id" });
     }
 
+    let lang;
+    if (_isWookieeFormat(req)) {
+      lang = "wookiee";
+    }
+
     const planet = new Planet(id);
     await planet.init();
 
-    const response = {
-      name: planet.getName(),
-      gravity: planet.getGravity(),
-    };
+    let response;
+
+    if (lang === "wookiee") {
+      // translates the reponse object to wookie
+      response = planet.toWookie();
+    } else {
+      response = {
+        name: planet.getName(),
+        gravity: planet.getGravity(),
+      };
+    }
 
     res.json(response);
   });

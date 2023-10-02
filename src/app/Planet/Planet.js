@@ -1,5 +1,5 @@
 const app = require("../../app");
-
+const { valueToWookie } = require("../swapiFunctions");
 class Planet {
   constructor(id) {
     this.id = id;
@@ -38,6 +38,15 @@ class Planet {
 
   getGravity() {
     return this.gravity;
+  }
+
+  toWookie() {
+    // Uses the method that is used in SWAPI to provide the wookiee format
+    let attributes = {};
+    attributes[valueToWookie("name")] = valueToWookie(this.getName());
+    attributes[valueToWookie("mass")] = this.getGravity();
+
+    return attributes;
   }
 }
 
