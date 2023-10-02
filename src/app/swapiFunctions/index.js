@@ -1,4 +1,11 @@
 const fetch = require("node-fetch");
+const {
+  SWAPI_BASE_URL,
+  SWAPI_PLANETS_RESOURCE,
+  SWAPI_PEOPLE_RESOURCE,
+  //SWAPI_PLANETS_COUNT,
+  //SWAPI_PEOPLE_COUNT,
+} = require("../../server/constants");
 
 //* GIVEN FUNCTIONS *//
 
@@ -87,10 +94,55 @@ const getIntHeight = (heightFromSWAPI) => {
   return getIntMass(heightFromSWAPI);
 };
 
+// Get single ID from URL
+const getIdFromSWAPIId = (swapiURL) => {
+  //This function transforms a url to ID, this is useful cause
+  // Ids are returned from SWAPI in the following format:
+  //{ SomeId: "https://swapi.dev/api/{RESOURCE}/{ID}/"}
+
+  return swapiURL.slice(0, -1).split("/").pop();
+};
+
+// Gets Planet data from SWAPI and returns formatted data
+const getPlanetDataFromSWAPI = async (planetId) => {
+  const planetDataFromSWAPI = await genericRequest(
+    SWAPI_BASE_URL + SWAPI_PLANETS_RESOURCE + `${planetId}/`
+  );
+  const name = planetDataFromSWAPI.name;
+  const gravity = getFloatGravity(planetDataFromSWAPI.gravity);
+
+  return { name, gravity };
+};
+
+// Gets People data from SWAPI and returns formatted data
+const getPeopleDataFromSWAPI = async (peopleId) => {
+  const peopleDataFromSWAPI = await genericRequest(
+    SWAPI_BASE_URL + SWAPI_PEOPLE_RESOURCE + `${peopleId}/`
+  );
+  let {
+    name,
+    mass,
+    height,
+    homeworld_name,
+    homeworld: homeworld_id,
+  } = peopleDataFromSWAPI;
+
+  name = name;
+  mass = getIntMass(mass);
+  height = getIntHeight(height);
+  homeworld_name = homeworld_name;
+  homeworld_id = getIdFromSWAPIId(homeworld_id);
+
+  return { name, mass, height, homeworld_name, homeworld_id };
+};
+
 module.exports = {
   getWeightOnPlanet,
   genericRequest,
   getFloatGravity,
   getIntMass,
   getIntHeight,
+  getIdFromSWAPIId,
+  getPlanetDataFromSWAPI,
+  getPeopleDataFromSWAPI,
 };
