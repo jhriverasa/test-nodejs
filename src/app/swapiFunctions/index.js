@@ -3,8 +3,8 @@ const {
   SWAPI_BASE_URL,
   SWAPI_PLANETS_RESOURCE,
   SWAPI_PEOPLE_RESOURCE,
-  //SWAPI_PLANETS_COUNT,
-  //SWAPI_PEOPLE_COUNT,
+  SWAPI_PLANETS_COUNT,
+  SWAPI_PEOPLE_COUNT,
 } = require("../../server/constants");
 
 //* GIVEN FUNCTIONS *//
@@ -136,6 +136,27 @@ const getPeopleDataFromSWAPI = async (peopleId) => {
   return { name, mass, height, homeworld_name, homeworld_id };
 };
 
+// Utility Functions that valids if an Id is valid
+const isValidPlanetId = (planetId) => {
+  const intPlanetId = parseInt(planetId);
+
+  return (
+    Number.isInteger(intPlanetId) &&
+    intPlanetId > 0 &&
+    intPlanetId <= SWAPI_PLANETS_COUNT
+  );
+};
+
+const isValidPeopleId = (peopleId) => {
+  const intPeopleId = parseInt(peopleId);
+
+  return (
+    Number.isInteger(intPeopleId) &&
+    intPeopleId > 0 &&
+    intPeopleId <= SWAPI_PEOPLE_COUNT
+  );
+};
+
 module.exports = {
   getWeightOnPlanet,
   genericRequest,
@@ -145,4 +166,6 @@ module.exports = {
   getIdFromSWAPIId,
   getPlanetDataFromSWAPI,
   getPeopleDataFromSWAPI,
+  isValidPlanetId,
+  isValidPeopleId,
 };
